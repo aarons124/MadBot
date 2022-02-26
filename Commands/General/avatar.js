@@ -4,7 +4,12 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 module.exports = {
   name: "avatar",
   aliases: ["av", "pfp", "icon"],
+  cooldown: 4,
   category: "General",
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Shows your avatar or a member\'s avatar",
+  usage: "avatar [mention or ID]",
 
   /**
    * @param {Client} client
@@ -25,10 +30,10 @@ module.exports = {
 
       embed.setImage(avaurl)
       .setColor("BLUE")
-      .setTitle(`Avatar de ${member.user.username}`)
+      .setTitle(`Avatar for ${member.user.username}`)
       .setDescription(`[PNG](${pngURL}}) | [JPG](${jpgURL}}) | [WEBP](${webpURL}}) | [GIF](${gifURL}})`)
       .setFooter({ text: `${message.author.tag}`, iconURL: `${message.author.displayAvatarURL({ dynamic: true, format: "png" })}`})
-      .setTimestamp(new Date().toDateString())
+      .setTimestamp(new Date())
 
       message.reply({ embeds: [embed] })
     } catch (error) {

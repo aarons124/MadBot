@@ -5,7 +5,11 @@ module.exports = {
   name: "reroll",
   aliases: ["rr"],
   cooldown: 4,
-  category: "Sorteos",
+  category: "Giveaways",
+  userPermissions: ["MANAGE_MESSAGES"],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Rerolls an active giveaway in the server and choose a new winner",
+  usage: "reroll <message_id>",
 
   /**
    * @param {Client} client

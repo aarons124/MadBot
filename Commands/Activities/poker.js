@@ -10,7 +10,11 @@ module.exports = {
   name: "poker",
   aliases: [""],
   cooldown: 4,
-  category: "Actividades",
+  category: "Activities",
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Create a poker sesion",
+  usage: "poker",
 
   run: async (client, message, args) => {
     try {

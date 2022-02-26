@@ -6,6 +6,10 @@ module.exports = {
   aliases: ["rprefix"],
   cooldown: 5,
   category: "Administrador",
+  userPermissions: ["ADMINISTRATOR"],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Resets the custom prefix set in the server",
+  usage: "resetprefix",
 
   /**
    * @param {Client} client
@@ -25,7 +29,7 @@ module.exports = {
         ] }).then(sent => {
           setTimeout(() => {
             sent.delete();
-          }, 5000)
+          }, 10000)
         })
       }
 
@@ -36,14 +40,14 @@ module.exports = {
       if (!currentData) {
         return message.reply({ embeds:[
           new MessageEmbed()
-          .setColor("#5865F2")
+          .setColor("#ED4245")
           .setDescription(`${client.emotes.error} There is not custom prefix set in this server.`)
         ]})
       }
 
       return message.reply({ embeds:[
         new MessageEmbed()
-        .setColor("#5865F2")
+        .setColor("#57F287")
         .setDescription(`${client.emotes.success} Custom prefix reset! Current prefix is now **%**`)
       ] })
 

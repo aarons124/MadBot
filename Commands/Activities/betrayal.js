@@ -7,10 +7,14 @@ const { Client, Message, MessageEmbed, Permissions } = require("discord.js");
  */
 
 module.exports = {
-  name: "chess",
+  name: "betrayal",
   aliases: [""],
   cooldown: 4,
-  category: "Actividades",
+  category: "Activities",
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Create a betrayal sesion",
+  usage: "betrayal",
 
   run: async (client, message, args) => {
     try {

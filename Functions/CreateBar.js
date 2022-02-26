@@ -10,7 +10,7 @@ module.exports = {
       if (index >= 1 && index <= length) {
         let bar = line.repeat(length - 1).split("");
         bar.splice(index, 0, indicator);
-        let timestamp = queue.formattedCurrentTime || "";
+        let timestamp = queue.formattedCurrentTime;
         return `\`${timestamp}\` | ${bar.join("")} | \`${
           queue.songs[0].formattedDuration || "`Live`"
           }\``;

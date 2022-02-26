@@ -6,6 +6,10 @@ module.exports = {
   aliases: ["prefix"],
   cooldown: 5,
   category: "Administrador",
+  userPermissions: ["ADMINISTRATOR"],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Sets a custom prefix for the server",
+  usage: "setprefix <new prefix>",
 
   /**
    * @param {Client} client
@@ -33,7 +37,7 @@ module.exports = {
       if (!new_prefix) {
         return message.reply({ embeds:[
           new MessageEmbed()
-          .setColor("#5865F2")
+          .setColor("#ED4245")
           .setDescription(`${client.emotes.error} Please provide a new prefix.`)
         ] })
       }
@@ -41,8 +45,8 @@ module.exports = {
       if (new_prefix.length > 2) {
         return message.reply({ embeds:[
           new MessageEmbed()
-          .setColor("#5865F2")
-          .setDescription(`${client.emotes.error} The prefix cannot contain more than 2 characters..`)
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} The prefix cannot contain more than 2 characters.`)
         ] })
       }
 
@@ -58,15 +62,13 @@ module.exports = {
       });
 
       currentData ? await prefixModel.updateOne({
-        GuildID: message.guild.id,
-        GuildName: message.guild.name,
         Prefix: new_prefix,
         Date: new Date().toLocaleString("en-US", { timeZone: "America/Merida" })
       }) : await newData.save();
 
       return message.reply({ embeds:[
           new MessageEmbed()
-          .setColor("#5865F2")
+          .setColor("#57F287")
           .setDescription(`${client.emotes.success} Server prefix set to **${new_prefix}**`)
         ] })
 

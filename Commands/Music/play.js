@@ -5,6 +5,10 @@ module.exports = {
   aliases: ["p"],
   cooldown: 4,
   category: "Music",
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "CONNECT", "SPEAK"],
+  description: "Play a song by its name from YouTube or Spotify by URL.",
+  usage: "play <song name or URL>",
 
   /**
    * @param {Client} client
@@ -21,8 +25,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in a channel first.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in a channel first.`)
           ]
         })
       }
@@ -33,8 +37,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} I don\'t have permission to **view** your voice channel.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} I don\'t have permission to **view** your voice channel.`)
           ]
         })
       }
@@ -43,8 +47,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} I don\'t have permission to **connect** to your voice channel.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} I don\'t have permission to **connect** to your voice channel.`)
           ]
         })
       }
@@ -53,8 +57,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} I don\'t have permission to **speak** in your voice channel.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} I don\'t have permission to **speak** in your voice channel.`)
           ]
         })
       }
@@ -63,8 +67,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} I don\'t have permission to **connect** to your voice channel because it\'s full.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} I don\'t have permission to **connect** to your voice channel because it\'s full.`)
           ]
         })
       }
@@ -75,8 +79,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
           ]
         })
       }
@@ -86,8 +90,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} Please provide a URL or search term.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} Please provide a URL or search term.`)
           ]
         })
       }

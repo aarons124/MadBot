@@ -25,7 +25,6 @@ module.exports = (client) => {
   }
 
   const manager = new GiveawayManagerWithOwnDatabase(client, {
-    
     default: {
       botsCanWin: false,
       embedColor: '#FF0000',

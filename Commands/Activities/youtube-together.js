@@ -10,7 +10,11 @@ module.exports = {
   name: "youtube-together",
   aliases: ["yt", "youtube"],
   cooldown: 4,
-  category: "Actividades",
+  category: "Activities",
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Create a youtube-together sesion",
+  usage: "youtube-together",
 
   run: async (client, message, args) => {
     try {

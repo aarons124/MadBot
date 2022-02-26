@@ -5,8 +5,12 @@ module.exports = {
   name: "edit",
   aliases: ["ed"],
   cooldown: 4,
-  category: "Sorteos",
-
+  category: "Giveaways",
+  userPermissions: ["MANAGE_MESSAGES"],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Edit an active giveaway in the server ",
+  usage: "edit <option> <new_value>",
+  
   /**
    * @param {Client} client
    * @param {Message} message
@@ -17,59 +21,125 @@ module.exports = {
     
     try {
       if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) {
-        return message.reply({ content: `${client.emotes.error} No tienes los permisos necesarios [\`GESTIONAR_MENSAJES\`] para usar este comando.` });
+        return message.reply({ embeds: [
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} You need the [\`MANAGE_MESSAGES\`] permission to use this command.`)
+        ] }).then(sent => {
+          setTimeout(() => {
+            sent.delete();
+          }, 10000)
+        })
       }
 
       const msgId = args[0];
 
       if (!msgId) {
-        return message.reply({ content: `${client.emotes.error} Proporciona una ID del mensaje al sorteo que quieres editar.`});
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} Provide an ID of the giveaway message you want to edit.`)
+        ]})
       }
 
       if (isNaN(msgId)) {
         return message.reply({ content: `${client.emotes.error} Proporciona una ID de mensaje valida.`});
       }
 
+      if (message.guild.members.cache.find(u => u.id === msgId)) {
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} The provided ID belongs to a member of the server, try a valid message ID.`)
+        ]})
+      }
+
+      if (message.guild.channels.cache.find(c => c.id === msgId)) {
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} The provided ID belongs to a server channel, try a valid message ID.`)
+        ]})
+      }
+
+      if (client.guilds.cache.get(msgId)) {
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} The provided ID belongs to a server, try a valid message ID.`)
+        ]})
+      }
+
       const giveaway = client.giveawaysManager.giveaways.find((g) => g.guildId === message.guildId && g.messageId === msgId);
 
       if (!giveaway) {
-        return message.reply({ content: `${client.emotes.error} No pude encontrar un sorteo en tu servidor con esa ID.`})
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} I couldn't find a giveaway on the server with this ID.`)
+        ]})
       }
+
+      let options = ["winners", "time", "prize"]
 
       if (!args[1]) {
-        return message.reply({ content: `${client.emotes.error} Tienes que especificar la opcion que quieres editar.\n\n Opciones:\n\`\`\`winners\`\`\`\n\`\`\`time\`\`\`\n\`\`\`prize\`\`\``})
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} You have to specify the option you want to edit.`)
+          .addField("Options", `\`\`\`${options.join("\n")}\`\`\``, false)
+        ]})
       }
 
-      const options = ["winners", "time", "prize"];
-
       if (!options.includes(args[1])) {
-        return message.reply({ content: `${client.emotes.error} Esa no esa una opcion valida.\n\n Opciones validas:\n\`\`\`winners\`\`\`\n\`\`\`time\`\`\`\n\`\`\`prize\`\`\``})
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} That is not a valid option.`)
+          .addField("Options", `\`\`\`${options.join("\n")}\`\`\``, false)
+        ]})
       }
 
       switch (args[1]) {
         case "winners": {
           const winners = args[2];
           if (!winners) {
-            return message.reply({ content: `${client.emotes.error} Tienes que especificar la cantidad de ganadores para el sorteo.` });
+            return message.reply({ embeds:[
+              new MessageEmbed()
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You have to specify the number of winners for the giveaway.`)
+            ]})
           }
 
           if (isNaN(winners)) {
-            return message.reply({ content: `${client.emotes.error} Introduce un numero valido de ganadores.` })
+            return message.reply({ embeds:[
+              new MessageEmbed()
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} Please enter a valid number of winners.`)
+            ]})
           }
 
           client.giveawaysManager.edit(msgId, {
             newWinnerCount: Number(winners)
           }).then(() => {
-            return message.reply({ content: `${client.emotes.success} El cantidad de ganadores del sorteo ha sido actualizada!.` })
+            return message.reply({ embeds:[
+              new MessageEmbed()
+              .setColor("#57F287")
+              .setDescription(`${client.emotes.success} The number of winners has been updated.`)
+            ]})
           }).catch(() => {
-            return message.reply({ content: `${client.emotes.error} Error al eliminar el sorteo. El sorteo ha finalizado o no hay ningun sorteo activo.` })
+            return message.reply({ content: `${client.emotes.error} There was an error editing this giveaway, please try again.` })
           })
         }
         break;
         case "time": {
           const time = args[2];
-          if (!time) {
-            return message.reply({ content: `${client.emotes.error} Tienes que especificar la duracion del sorteo (1m, 1h, 1d, etc).` });
+          if (!time || isNaN(ms(time))) {
+            return message.reply({ embeds:[
+              new MessageEmbed()
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You have to specify the new duration of this giveaway (1m, 1h, 1d, etc).`)
+            ]})
           }
 
           client.giveawaysManager.edit(msgId, {
@@ -77,7 +147,7 @@ module.exports = {
           }).then(() => {
             return message.reply({ content: `${client.emotes.success} La duracion del sorteo ha sido actualizada!.` });
           }).catch(() => {
-            return message.reply({ content: `${client.emotes.error} Error al eliminar el sorteo. El sorteo ha finalizado o no hay ningun sorteo activo.` })
+            return message.reply({ content: `${client.emotes.error} Error al editar el sorteo. El sorteo ha finalizado o no hay ningun sorteo activo.` })
           })
         }
         break;
@@ -96,9 +166,17 @@ module.exports = {
           })
         }
       }
-
     } catch (e) {
       console.log(`[GEDIT_COMMAND]: ${e}`);
+    }
+
+    function toDate(string) {
+      const match = string.match(/(?<number>[0-9]*)(?<unit>[a-z]*)/);
+      if (match) {
+        const {number, unit} = match.groups;
+        const offset = number * mapping[unit];
+        return new Date(Date.now() + offset);
+      }
     }
   }
 }

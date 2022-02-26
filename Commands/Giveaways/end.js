@@ -5,7 +5,11 @@ module.exports = {
   name: "end",
   aliases: ["ed"],
   cooldown: 4,
-  category: "Sorteos",
+  category: "Giveaways",
+  userPermissions: ["MANAGE_MESSAGES"],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Ends an active giveaway in the server",
+  usage: "end <message_id>",
 
   /**
    * @param {Client} client
@@ -17,7 +21,15 @@ module.exports = {
     
     try {
       if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) {
-        return message.reply({ content: `${client.emotes.error} No tienes los permisos necesarios [\`GESTIONAR_MENSAJES\`] para usar este comando.` });
+        return message.reply({ embeds: [
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} You need the [\`MANAGE_MESSAGES\`] permission to use this command.`)
+        ] }).then(sent => {
+          setTimeout(() => {
+            sent.delete();
+          }, 10000)
+        })
       }
 
       const msgId = args[0];

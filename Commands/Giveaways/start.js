@@ -5,7 +5,11 @@ module.exports = {
   name: "start",
   aliases: ["st"],
   cooldown: 4,
-  category: "Sorteos",
+  category: "Giveaways",
+  userPermissions: ["MANAGE_MESSAGES"],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Starts a new giveaway in the server",
+  usage: "start <channel> <duration> <winners> <prize>",
 
   run: (client, message, args) => {
     
@@ -35,7 +39,7 @@ module.exports = {
         return message.reply({ content: `${client.emotes.error} No tengo permiso para \`INSERTAR_ENLACES\` en ese canal.` })
       }
 
-      if (!duration) {
+      if (isNaN(ms(duration))) {
         return message.reply({ content: `${client.emotes.error} Tienes que especificar la duracion del sorteo (1m, 1h, 1d, etc).` });
       }
 

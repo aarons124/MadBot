@@ -12,7 +12,11 @@ module.exports = {
   name: "volume",
   aliases: ["v"],
   category: "Music",
-  cooldown: 5,
+  cooldown: 4,
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Change the volume for the current song.",
+  usage: "volume <quantity>",
 
   run: async (client, message, args) => {
 
@@ -24,8 +28,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in a channel first.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in a channel first.`)
           ]
         })
       }
@@ -34,8 +38,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
           ]
         })
       }
@@ -46,8 +50,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} The queue is currently empty.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} The queue is currently empty.`)
           ]
         })
       }
@@ -57,32 +61,32 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#57F287")
-            .setDescription(`${client.emotes.success} Current volume is set to **${queue.volume}%**.`)
+              .setColor("#57F287")
+              .setDescription(`${client.emotes.success} Current volume is set to **${queue.volume}%**.`)
           ]
         })
       }
       // Define the volume variable
       const volume = parseInt(args[0]) || Number(args[0]);
-      
+
       // If the args provided aren't numbers, return a warning message
       if (isNaN(volume)) {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} That is not a valid argument. **You can only use numbers!**.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} That is not a valid argument. **You can only use numbers!**.`)
           ]
         })
       }
 
       // If volume range is below 1 or above 100, return a warning message
-      if(Number(volume) < 1 || Number(volume) > 100) {
+      if (Number(volume) < 1 || Number(volume) > 100) {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You can only set the volume range between 1 and 100.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You can only set the volume range between 1 and 100.`)
           ]
         })
       }
@@ -91,12 +95,12 @@ module.exports = {
       await queue.setVolume(Number(volume));
       // Send a confirmation message
       return message.reply({
-          embeds: [
-            new MessageEmbed()
+        embeds: [
+          new MessageEmbed()
             .setColor("#57F287")
             .setDescription(`${client.emotes.success} Volume set to **${volume}%**.`)
-          ]
-        })
+        ]
+      })
     } catch (e) {
       //Catch if there are any errors
       console.log(`[VOLUME_COMMAND]: ${e}`);

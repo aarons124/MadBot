@@ -6,6 +6,10 @@ module.exports = {
   aliases: ["np"],
   cooldown: 4,
   category: "Music",
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Shows the current song playing",
+  usage: "nowplaying",
 
   /**
    * @param {Client} client
@@ -23,20 +27,20 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} The queue is currently empty.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} The queue is currently empty.`)
           ]
         })
       }
-      
+
       const track = queue.songs[0];
 
       message.reply({
         embeds: [
           new MessageEmbed()
-          .setColor("#5865F2")
-          .setTitle(`${track.name}`)
-          .setDescription(`${createBar(queue)}`)
+            .setColor("#5865F2")
+            .setTitle(`${track.name}`)
+            .setDescription(`${createBar(queue)}`)
         ]
       });
     } catch (e) {

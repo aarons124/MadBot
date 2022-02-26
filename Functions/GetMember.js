@@ -1,6 +1,6 @@
 module.exports = {
   getMember: async function(message, toFind = '', authorReturn = true) {
-    if (!toFind) return authorReturn ? message.member : null;
+    if (!toFind) return authorReturn ? message.member : null; 
     toFind = toFind.toLowerCase();
     let target = await message.guild.members.fetch({ user: toFind }).catch(() => undefined);
     if (!target && message.mentions.members) target = message.mentions.members.first();

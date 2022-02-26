@@ -13,19 +13,23 @@ module.exports = {
   aliases: ["continue", "unpause"],
   cooldown: 4,
   category: "Music",
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Resume the current queue",
+  usage: "sresumetop",
 
   run: async (client, message, args) => {
 
     try {
-// Checking if the member is in a channel
+      // Checking if the member is in a channel
       const voiceChannel = message.member.voice.channel;
       // If the member is not in a channel, return a message
       if (!voiceChannel) {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in a channel first.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in a channel first.`)
           ]
         })
       }
@@ -34,8 +38,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
           ]
         })
       }
@@ -46,8 +50,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} The queue is currently empty.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} The queue is currently empty.`)
           ]
         })
       }
@@ -56,8 +60,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} The queue is already playing.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} The queue is already playing.`)
           ]
         })
       }

@@ -4,11 +4,8 @@ const { emojis } = require("./Util/Emojis");
 const client = new Client({
   makeCache: Options.cacheWithLimits({
     ApplicationCommandManager: 0,
-    BaseGuildEmojiManager: 0,
     ChannelManager: Infinity,
     GuildChannelManager: Infinity,
-    GuildBanManager: 0,
-    GuildInviteManager: 0,
     GuildManager: Infinity,
     GuildMemberManager: {
       maxSize: Infinity,
@@ -19,13 +16,8 @@ const client = new Client({
         return true;
       },
     },
-    GuildStickerManager: 0,
     MessageManager: 20,
     PermissionOverwriteManager: Infinity,
-    PresenceManager: 0,
-    ReactionManager: 0,
-    ReactionUserManager: 0,
-    RoleManager: Infinity,
     StageInstanceManager: Infinity,
     ThreadManager: Infinity,
     ThreadMemberManager: 0,
@@ -43,25 +35,21 @@ const client = new Client({
   restTimeOffset: 500	,
   restGlobalRateLimit: 50,
   allowedMentions: {
-    parse: ["users", "roles"],
+    parse: ["users"],
     repliedUser: true
   },
   presence: {
     status: "online",
     activities: [{
-      name: "%help",
+      name: "%help | @Boombox help",
       type: "PLAYING"
     }]
   },
   intents: [
     Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_BANS,
-    Intents.FLAGS.DIRECT_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     Intents.FLAGS.GUILD_VOICE_STATES,
-    Intents.FLAGS.GUILD_INVITES
+    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
   ]
 });
 

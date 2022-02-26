@@ -5,6 +5,10 @@ module.exports = {
   aliases: ["s", "next", "n"],
   cooldown: 4,
   category: "Music",
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Skip the current track",
+  usage: "skip",
 
   /**
    * @param {Client} client
@@ -22,8 +26,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in a channel first.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in a channel first.`)
           ]
         })
       }
@@ -32,8 +36,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
           ]
         })
       }
@@ -44,8 +48,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} The queue is currently empty.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} The queue is currently empty.`)
           ]
         })
       }
@@ -54,8 +58,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You can\'t that song, the queue is currently paused.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You can\'t that song, the queue is currently paused.`)
           ]
         })
       }
@@ -64,8 +68,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} There are no more songs in the queue that you can skip.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} There are no more songs in the queue that you can skip.`)
           ]
         })
       }

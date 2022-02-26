@@ -5,6 +5,10 @@ module.exports = {
   aliases: ["at"],
   cooldown: 4,
   category: "Music",
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Add a song at the top of the queue",
+  usage: "addtop <song name or URL>",
 
   /**
    * @param {Client} client
@@ -21,32 +25,32 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in a channel first.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in a channel first.`)
           ]
         })
       }
-      
+
       // Checking if the member is in the same channel as the client
 
       if (message.guild.me.voice.channel && voiceChannel.id !== message.guild.me.voice.channel.id) {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
           ]
         })
       }
-       // Declaring the queue constant
+      // Declaring the queue constant
       const queue = client.distube.getQueue(message);
       // If there isn't any queue or the queue is empty, return a message
       if (!queue || queue.songs.length < 1) {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} The queue is currently empty.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} The queue is currently empty.`)
           ]
         })
       }
@@ -55,12 +59,12 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} Please provide a URL or search term.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} Please provide a URL or search term.`)
           ]
         })
       }
-      
+
       // Join the member's channel
       await client.distube.voices.join(voiceChannel).then(async () => {
         // Play the song

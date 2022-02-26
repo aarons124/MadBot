@@ -2,9 +2,13 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "shuffle",
-  aliases: ["sh"],
+  aliases: ["mix"],
   cooldown: 4,
   category: "Music",
+  userPermissions: [],
+  botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+  description: "Mix the current queue",
+  usage: "shuffle",
 
   /**
    * @param {Client} client
@@ -22,8 +26,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in a channel first.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in a channel first.`)
           ]
         })
       }
@@ -32,8 +36,8 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You need to be in the same channel as me.`)
           ]
         })
       }
@@ -44,14 +48,14 @@ module.exports = {
         return message.reply({
           embeds: [
             new MessageEmbed()
-            .setColor("#ED4245")
-            .setDescription(`${client.emotes.error} The queue is currently empty.`)
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} The queue is currently empty.`)
           ]
         })
       }
       // If everything above is executed correctly, we unpause the queue and react to the message as a confirmation
       await queue.shuffle(message).then(() => {
-        return message.reply({ content: `${client.emotes.success} Queue shuffled!`})
+        return message.reply({ content: `${client.emotes.success} Queue shuffled!` })
       })
     } catch (e) {
       // Catch if there is any errors

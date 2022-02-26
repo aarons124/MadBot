@@ -1,22 +1,20 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
-const { Queue } = require("distube");
 
 module.exports = {
-  name: "replay",
-  aliases: ["rp", "restart", "again"],
+  name: "remove",
+  aliases: ["rm", "del"],
   cooldown: 4,
   category: "Music",
   userPermissions: [],
   botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
-  description: "Replay a song",
-  usage: "replay",
+  description: "Remove a song from the queue",
+  usage: "remove <#song>",
 
   /**
- * @param {Queue} queue
- * @param {Client} client
- * @param {Message} message
- * @param {String[]} args
- */
+   * @param {Client} client
+   * @param {Message} message
+   * @param {String[]} args
+   */
 
   run: async (client, message, args) => {
 
@@ -33,17 +31,6 @@ module.exports = {
           ]
         })
       }
-
-      // If the client is in a channel but the member's channel is not the same as the client's channel, return a message
-      if (message.guild.me.voice.channel && voiceChannel.id !== message.guild.me.voice.channel.id) {
-        return message.reply({
-          embeds: [
-            new MessageEmbed()
-              .setColor("#ED4245")
-              .setDescription(`${client.emotes.error} You need to be in same channel as me.`)
-          ]
-        })
-      }
       // If the client is in a channel but the member's channel is not the same as the client's channel, return a message
       if (message.guild.me.voice.channel && voiceChannel.id !== message.guild.me.voice.channel.id) {
         return message.reply({
@@ -54,9 +41,8 @@ module.exports = {
           ]
         })
       }
-
       // Declaring the queue constant
-      const queue = client.distube.getQueue(message);
+      const queue = await client.distube.getQueue(message);
       // If there isn't any queue or the queue is empty, return a message
       if (!queue || queue.songs.length < 1) {
         return message.reply({
@@ -68,32 +54,62 @@ module.exports = {
         })
       }
 
-      // Prevention for replaying live videos.
-      if (queue.songs[0].isLive) {
+      if (!args[0]) {
         return message.reply({
           embeds: [
             new MessageEmbed()
               .setColor("#ED4245")
-              .setDescription(`${client.emotes.error} You cannot replay live videos.`)
+              .setDescription(`${client.emotes.error} You must enter the song index you want to remove.`)
           ]
         })
       }
 
-      if (queue.paused) {
+      const index = parseInt(args[0]) - 1;
+
+      if (isNaN(index)) {
         return message.reply({
           embeds: [
             new MessageEmbed()
               .setColor("#ED4245")
-              .setDescription(`${client.emotes.error} You can\'t replay that song, the queue is currently paused.`)
+              .setDescription(`${client.emotes.error} You must enter a valid song index.`)
           ]
         })
       }
-      // If everything above is executed correctly, we seek the song and react to the message as a confirmation
-      await queue.seek(0);
-      message.react("⏪");
+
+      if (index === 0) {
+        return message.reply({
+          embeds: [
+            new MessageEmbed()
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} You can\'t remove the current song.`)
+          ]
+        })
+      }
+
+      if (index < 1 || index > queue.songs.length) {
+        return message.reply({
+          embeds: [
+            new MessageEmbed()
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} I couldn't find a song in that position.`)
+          ]
+        })
+      }
+
+      let track = queue.songs[index];
+
+      await queue.songs.splice(track, index);
+
+      return message.reply({
+        embeds: [
+          new MessageEmbed()
+            .setColor("#57F287")
+            .setDescription(`${client.emotes.success} Removed [${track.name}](${track.url}) from the queue.`)
+        ]
+      })
+
     } catch (e) {
-      // Catch if there is any errors
-      console.log(`[REPLAY_COMMAND]: ${e}`);
+      console.log(`[REMOVE_COMMAND]: ${e}`)
     }
   }
 }
