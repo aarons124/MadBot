@@ -1,4 +1,4 @@
-const { Client, Message, Permissions } = require("discord.js");
+const { Client, Message, MessageEmbed, Permissions } = require("discord.js");
 const ms = require("ms");
 
 module.exports = {
@@ -25,11 +25,7 @@ module.exports = {
           new MessageEmbed()
           .setColor("#ED4245")
           .setDescription(`${client.emotes.error} You need the [\`MANAGE_MESSAGES\`] permission to use this command.`)
-        ] }).then(sent => {
-          setTimeout(() => {
-            sent.delete();
-          }, 10000)
-        })
+        ]})
       }
 
       const msgId = args[0];
@@ -145,38 +141,47 @@ module.exports = {
           client.giveawaysManager.edit(msgId, {
             addTime: ms(time)
           }).then(() => {
-            return message.reply({ content: `${client.emotes.success} La duracion del sorteo ha sido actualizada!.` });
+            return message.reply({
+              embeds: [
+                new MessageEmbed()
+                  .setColor("#57F287")
+                  .setDescription(`${client.emotes.success} The time has been updated!`)
+              ]
+            })
           }).catch(() => {
-            return message.reply({ content: `${client.emotes.error} Error al editar el sorteo. El sorteo ha finalizado o no hay ningun sorteo activo.` })
+            return message.reply({ content: `${client.emotes.error} There was an error editing this giveaway, please try again.` })
           })
         }
         break;
         case "prize": {
           const prize = args.slice(2).join(" ");
           if (!prize) {
-            return message.reply({ content: `${client.emotes.error} Tienes que especificar la duracion del sorteo (1m, 1h, 1d, etc).` });
+            return message.reply({
+              embeds: [
+                new MessageEmbed()
+                  .setColor("#ED4245")
+                  .setDescription(`${client.emotes.error} You have to specify a new prize for this giveaway.`)
+              ]
+            })
           }
 
           client.giveawaysManager.edit(msgId, {
             newPrize: prize
           }).then(() => {
-            return message.reply({ content: `${client.emotes.success} El premio del sorteo ha sido actualizado!.` });
+            return message.reply({
+              embeds: [
+                new MessageEmbed()
+                  .setColor("#57F287")
+                  .setDescription(`${client.emotes.success} The prize has been updated!`)
+              ]
+            })
           }).catch(() => {
-            return message.reply({ content: `${client.emotes.error} Error al eliminar el sorteo. El sorteo ha finalizado o no hay ningun sorteo activo.` })
+            return message.reply({ content: `${client.emotes.error} There was an error editing this giveaway, please try again.` })
           })
         }
       }
     } catch (e) {
       console.log(`[GEDIT_COMMAND]: ${e}`);
-    }
-
-    function toDate(string) {
-      const match = string.match(/(?<number>[0-9]*)(?<unit>[a-z]*)/);
-      if (match) {
-        const {number, unit} = match.groups;
-        const offset = number * mapping[unit];
-        return new Date(Date.now() + offset);
-      }
     }
   }
 }

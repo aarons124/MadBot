@@ -1,5 +1,4 @@
 const { Client, Message, MessageEmbed, Permissions } = require("discord.js");
-const ms = require("ms");
 
 module.exports = {
   name: "delete",
@@ -25,11 +24,7 @@ module.exports = {
           new MessageEmbed()
           .setColor("#ED4245")
           .setDescription(`${client.emotes.error} You need the [\`MANAGE_MESSAGES\`] permission to use this command.`)
-        ] }).then(sent => {
-          setTimeout(() => {
-            sent.delete();
-          }, 10000)
-        })
+        ]})
       }
 
       const msgId = args[0];

@@ -1,5 +1,4 @@
-const { Client, Message, Permissions } = require("discord.js");
-const ms = require("ms");
+const { Client, Message, MessageEmbed, Permissions } = require("discord.js");
 
 module.exports = {
   name: "reroll",
@@ -21,29 +20,80 @@ module.exports = {
     
     try {
       if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) {
-        return message.reply({ content: `${client.emotes.error} No tienes los permisos necesarios [\`GESTIONAR_MENSAJES\`] para usar este comando.` });
+        return message.reply({ embeds: [
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} You need the [\`MANAGE_MESSAGES\`] permission to use this command.`)
+        ]})
       }
 
       const msgId = args[0];
 
       if (!msgId) {
-        return message.reply({ content: `${client.emotes.error} Proporciona una ID del mensaje al sorteo que quieres hacer reroll.`});
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} Provide an ID of the giveaway message you want to edit.`)
+        ]})
       }
 
       if (isNaN(msgId)) {
-        return message.reply({ content: `${client.emotes.error} Proporciona una ID de mensaje valida.`});
+        return message.reply({
+          embeds: [
+            new MessageEmbed()
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} Provide a valid message ID.`)
+          ]
+        })
+      }
+
+      if (message.guild.members.cache.find(u => u.id === msgId)) {
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} The provided ID belongs to a member of the server, try a valid message ID.`)
+        ]})
+      }
+
+      if (message.guild.channels.cache.find(c => c.id === msgId)) {
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} The provided ID belongs to a server channel, try a valid message ID.`)
+        ]})
+      }
+
+      if (client.guilds.cache.get(msgId)) {
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} The provided ID belongs to a server, try a valid message ID.`)
+        ]})
       }
 
       const giveaway = client.giveawaysManager.giveaways.find((g) => g.guildId === message.guildId && g.messageId === msgId);
 
       if (!giveaway) {
-        return message.reply({ content: `${client.emotes.error} No pude encontrar un sorteo en tu servidor con esa ID.`})
+        return message.reply({ embeds:[
+          new MessageEmbed()
+          .setColor("#ED4245")
+          .setDescription(`${client.emotes.error} I couldn't find a giveaway on the server with this ID.`)
+        ]})
       }
 
       client.giveawaysManager.reroll(msgId, {
         messages: {
-          congrat: `${client.emotes.sorteo} Nuevo(s) ganador(es): {winners}! Felicidades, ganaste **{this.prize}**`,
-          error: `${client.emotes.error} No hay participaciones válidas, no se pueden elegir nuevos ganadores.`
+          congrat: {
+            content: "{winners}",
+            embed: new MessageEmbed()
+              .setColor("BLUE")
+              .setDescription(`${client.emotes.sorteo} Congratulations! You won the giveaway for **{this.prize}**`),
+          },
+          error: {
+            embed: new MessageEmbed()
+              .setColor("#ED4245")
+              .setDescription(`${client.emotes.error} No valid participations, no new winner(s) can be chosen!`),
+          }
         }
       })
 
