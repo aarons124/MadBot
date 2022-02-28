@@ -9,7 +9,6 @@
   "author": "Aaron",
   "license": "Apache-2.0",
   "devDependencies": {
-    "dotenv": "^10.0.0",
     "node": "^17.3.0"
   },
   "dependencies": {
@@ -25,6 +24,7 @@
     "discord-together": "^1.3.25",
     "discord.js": "^13.6.0",
     "distube": "^3.3.2",
+    "dotenv": "^10.0.0",
     "ffmpeg-static": "^4.4.1",
     "fs": "0.0.1-security",
     "humanize-duration": "^3.27.1",
