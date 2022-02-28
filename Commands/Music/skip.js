@@ -63,20 +63,21 @@ module.exports = {
           ]
         })
       }
-      // If there are no more songs to skip, return a message
-      if (!queue.songs[1]) {
-        return message.reply({
-          embeds: [
-            new MessageEmbed()
-              .setColor("#ED4245")
-              .setDescription(`${client.emotes.error} There are no more songs in the queue that you can skip.`)
-          ]
-        })
-      }
+      // // If there are no more songs to skip, return a message
+      // if (!queue.songs[1]) {
+      //   return message.reply({
+      //     embeds: [
+      //       new MessageEmbed()
+      //         .setColor("#ED4245")
+      //         .setDescription(`${client.emotes.error} There are no more songs in the queue that you can skip.`)
+      //     ]
+      //   })
+      // }
+      
       // If everything above is executed correctly, we skip the song and react to the message as a confirmation
       await queue.skip(message).then(() => {
         message.react("⏭");
-      });
+      }).catch(() => {});
     } catch (e) {
       // Catch if there is any errors
       console.log(`[SKIP_COMMAND]: ${e}`);

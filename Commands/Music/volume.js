@@ -1,13 +1,6 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const { Queue } = require("distube");
 
-/**
- * @param {Queue} queue
- * @param {Client} client
- * @param {Message} message
- * @param {String[]} args
- */
-
 module.exports = {
   name: "volume",
   aliases: ["v"],
@@ -17,6 +10,12 @@ module.exports = {
   botPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
   description: "Change the volume for the current song.",
   usage: "volume <quantity>",
+
+  /**
+   * @param {Client} client
+   * @param {Message} message
+   * @param {String[]} args
+   */
 
   run: async (client, message, args) => {
 

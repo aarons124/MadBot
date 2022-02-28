@@ -41,7 +41,7 @@ const client = new Client({
   presence: {
     status: "online",
     activities: [{
-      name: "%help | @Boombox help",
+      name: "m;help | @MadBot help",
       type: "PLAYING"
     }]
   },

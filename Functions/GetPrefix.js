@@ -12,7 +12,7 @@ module.exports = {
     if (data) {
       customPrefix = data.Prefix;
     } else {
-      customPrefix = "%"
+      customPrefix = "m;"
     }
 
     return customPrefix;

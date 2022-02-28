@@ -83,16 +83,16 @@ module.exports = {
           new MessageEmbed()
           .setColor("#ED4245")
           .setDescription(`${client.emotes.error} You have to specify the option you want to edit.`)
-          .addField("Options", `\`\`\`${options.join("\n")}\`\`\``, false)
+          .addField("Options", `${options.join("\n")}`, false)
         ]})
       }
 
-      if (!options.includes(args[1])) {
+      if (!options.includes(args[1].toLowerCase())) {
         return message.reply({ embeds:[
           new MessageEmbed()
           .setColor("#ED4245")
           .setDescription(`${client.emotes.error} That is not a valid option.`)
-          .addField("Options", `\`\`\`${options.join("\n")}\`\`\``, false)
+          .addField("Options", `${options.join("\n")}`, false)
         ]})
       }
 

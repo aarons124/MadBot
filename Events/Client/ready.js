@@ -68,7 +68,7 @@ module.exports = (client) => {
   })
 
     .on("initQueue", (queue) => {
-      queue.autoplay = false;
+      queue.autoplay = true;
       queue.volume = 100;
     })
 

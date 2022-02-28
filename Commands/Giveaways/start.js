@@ -124,14 +124,14 @@ module.exports = {
             embed: new MessageEmbed()
               .setColor("BLUE")
               .setDescription(`${client.emotes.sorteo} Congratulations! You won the giveaway for **{this.prize}**`),
-            replyToGiveaway: true
+            replyToGiveaway: false
           },
           embedFooter: '{this.winnerCount} winner(s)',
           noWinner: 'Giveaway cancelled, no valid participations.',
           hostedBy: 'Hosted by: {this.hostedBy}',
           winners: 'Winner(s):',
           endedAt: 'Ended at',
-          reaction: '947345332717629500'
+          reaction: ':tadaBoombox:'
         }
       }).then(() => {
         return message.reply({

@@ -52,7 +52,7 @@ module.exports = {
       message.reply({
         embeds: [
           new MessageEmbed()
-            .setColor("#57F287")
+            .setColor("#5865F2")
             .setDescription(`${qu}`)
             .setFooter({ text: `Page ${page}/${maxPages} | ${queue.songs.length} song(s) queued` })
         ]

@@ -38,7 +38,7 @@ module.exports = {
       message.reply({
         embeds: [
           new MessageEmbed()
-            .setColor("#5865F2")
+            .setColor(message.guild.me.displayHexColor)
             .setTitle(`${track.name}`)
             .setDescription(`${createBar(queue)}`)
         ]
