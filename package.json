@@ -9,10 +9,10 @@
   "author": "Aaron",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@discordjs/opus": "^0.7.0",
     "node": "^17.3.0"
   },
   "dependencies": {
-    "@discordjs/opus": "^0.7.0",
     "@discordjs/voice": "^0.7.5",
     "@distube/soundcloud": "^1.1.0",
     "@distube/spotify": "^1.2.1",
