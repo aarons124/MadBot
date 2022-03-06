@@ -38,6 +38,10 @@ module.exports = async (client, message) => {
     client.cooldowns.set(cmd.name, new Collection())
   }
 
+  if (!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) {
+    return message.reply({ content: `${client.emotes.error} I\'m missing the [\`EMBEDS_LINKS\`] permission.`})
+  }
+
   const now = Date.now();
   const timestamps = client.cooldowns.get(cmd.name);
   const cooldownAmount = (cmd.cooldown) * 1000;

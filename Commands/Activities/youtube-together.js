@@ -1,4 +1,4 @@
-const { Client, Message, Permissions } = require("discord.js");
+const { Client, Message, MessageEmbed, MessageActionRow, MessageButton, Permissions } = require("discord.js");
 
 module.exports = {
   name: "youtube-together",
@@ -18,7 +18,7 @@ module.exports = {
 
   run: async (client, message, args) => {
     try {
-          if (!message.guild.me.permissions.has(Permissions.FLAGS.CREATE_INSTANT_INVITE)) {
+      if (!message.guild.me.permissions.has(Permissions.FLAGS.CREATE_INSTANT_INVITE)) {
         return message.reply({ embeds: [
           new MessageEmbed()
           .setColor("#ED4245")
@@ -40,7 +40,16 @@ module.exports = {
           embeds: [
             new MessageEmbed()
               .setColor("#57F287")
-              .setDescription(`${client.emotes.success} YouTube-Together session created. [[Click here](${invite.code}])`)
+              .setDescription(`${client.emotes.success} **YouTube-Together session created.** Click the button to join the activity`)
+          ],
+          components: [
+            new MessageActionRow()
+            .addComponents(
+              new MessageButton()
+              .setStyle("LINK")
+              .setLabel("Join")
+              .setURL(`${invite.code}`)
+            )
           ]
         })
       }).catch(() => { return message.reply({ content: `${client.emotes.error} There was an error creating the session, please try again` })});

@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed, Permissions } = require("discord.js");
+const { Client, Message, MessageEmbed, MessageActionRow, MessageButton, Permissions } = require("discord.js");
 
 module.exports = {
   name: "betrayal",
@@ -34,13 +34,22 @@ module.exports = {
           .setDescription(`${client.emotes.error} You need to be in a channel first.`)
         ]})
       }
-
+      
       client.discordTogether.createTogetherCode(channel, "betrayal").then(async (invite) => {
         return message.reply({
           embeds: [
             new MessageEmbed()
               .setColor("#57F287")
-              .setDescription(`${client.emotes.success} Betrayal session created. [[Click here](${invite.code}])`)
+              .setDescription(`${client.emotes.success} **Betrayal session created.** Click the button to join the activity`)
+          ],
+          components: [
+            new MessageActionRow()
+            .addComponents(
+              new MessageButton()
+              .setStyle("LINK")
+              .setLabel("Join")
+              .setURL(`${invite.code}`)
+            )
           ]
         })
       }).catch(() => { return message.reply({ content: `${client.emotes.error} There was an error creating the session, please try again.` })});
