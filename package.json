@@ -13,7 +13,7 @@
     "node": "^17.3.0"
   },
   "dependencies": {
-    "@discordjs/voice": "^0.7.5",
+    "@discordjs/voice": "^0.9.0",
     "@distube/soundcloud": "^1.1.0",
     "@distube/spotify": "^1.2.1",
     "@distube/yt-dlp": "^1.0.2",
