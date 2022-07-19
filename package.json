@@ -29,7 +29,7 @@
     "fs": "0.0.1-security",
     "humanize-duration": "^3.27.1",
     "libsodium-wrappers": "^0.7.10",
-    "mongoose": "^6.3.2",
+    "mongoose": "^6.4.5",
     "ms": "^2.1.3"
   }
 }
